@@ -1,58 +1,185 @@
 <template>
-  <div class="hello">
-    <h1>{{ msg }}</h1>
-    <p>
-      For a guide and recipes on how to configure / customize this project,<br>
-      check out the
-      <a href="https://cli.vuejs.org" target="_blank" rel="noopener">vue-cli documentation</a>.
-    </p>
-    <h3>Installed CLI Plugins</h3>
-    <ul>
-      <li><a href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-babel" target="_blank" rel="noopener">babel</a></li>
-      <li><a href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-eslint" target="_blank" rel="noopener">eslint</a></li>
-    </ul>
-    <h3>Essential Links</h3>
-    <ul>
-      <li><a href="https://vuejs.org" target="_blank" rel="noopener">Core Docs</a></li>
-      <li><a href="https://forum.vuejs.org" target="_blank" rel="noopener">Forum</a></li>
-      <li><a href="https://chat.vuejs.org" target="_blank" rel="noopener">Community Chat</a></li>
-      <li><a href="https://twitter.com/vuejs" target="_blank" rel="noopener">Twitter</a></li>
-      <li><a href="https://news.vuejs.org" target="_blank" rel="noopener">News</a></li>
-    </ul>
-    <h3>Ecosystem</h3>
-    <ul>
-      <li><a href="https://router.vuejs.org" target="_blank" rel="noopener">vue-router</a></li>
-      <li><a href="https://vuex.vuejs.org" target="_blank" rel="noopener">vuex</a></li>
-      <li><a href="https://github.com/vuejs/vue-devtools#vue-devtools" target="_blank" rel="noopener">vue-devtools</a></li>
-      <li><a href="https://vue-loader.vuejs.org" target="_blank" rel="noopener">vue-loader</a></li>
-      <li><a href="https://github.com/vuejs/awesome-vue" target="_blank" rel="noopener">awesome-vue</a></li>
-    </ul>
-  </div>
+    <v-container>
+        <v-row class="text-center">
+            <v-col cols="12">
+                <v-img
+                        :src="require('../assets/logo1.svg')"
+                        class="my-3"
+                        contain
+                        height="200"
+                />
+            </v-col>
+
+            <v-col class="mb-4">
+                <h1 class="display-2 font-weight-bold mb-3">
+                    Lets get you some help
+                </h1>
+
+                <!--        <p class="subheading font-weight-regular">-->
+                <!--          For help and collaboration with other Vuetify developers,-->
+                <!--          <br>please join our online-->
+                <!--          <a-->
+                <!--            href="https://community.vuetifyjs.com"-->
+                <!--            target="_blank"-->
+                <!--          >Discord Community</a>-->
+                <!--        </p>-->
+            </v-col>
+
+            <v-col
+                    class="mb-5"
+                    cols="12"
+            >
+                <h2 class="headline font-weight-bold mb-3">
+                    Emergency Contact Numbers
+                </h2>
+
+                <v-row justify="center">
+                    <a
+                            v-for="(contact, i) in emergencyContacts"
+                            :key="i"
+                            :href="contact.href"
+                            class="subheading mx-3"
+                            target="_blank"
+                    >
+                        {{ contact.text }}
+                    </a>
+                </v-row>
+            </v-col>
+
+            <v-col
+                    class="mb-5"
+                    cols="12"
+            >
+                <h2 class="headline font-weight-bold mb-3">
+                    Essential Guidelines on Covid-19
+                </h2>
+
+                <v-row justify="center">
+                    <a
+                            v-for="(link, i) in essentialGuidelines"
+                            :key="i"
+                            :href="link.href"
+                            class="subheading mx-3"
+                            target="_blank"
+                    >
+                        {{ link.text }}
+                    </a>
+                </v-row>
+            </v-col>
+
+            <v-col
+                    class="mb-5"
+                    cols="12"
+            >
+                <h2 class="headline font-weight-bold mb-3">
+                    Change Language
+                </h2>
+
+                <v-row justify="center">
+                  <a class="subheading mx-3">
+                    Hausa
+                  </a>
+                  <a class="subheading mx-3">
+                    Igbo
+                  </a>
+                  <a class="subheading mx-3">
+                    Yoruba
+                  </a>
+                  <a class="subheading mx-3">
+                    Pidgin (Broken-Engish)
+                  </a>
+                </v-row>
+            </v-col>
+
+            <v-col
+                    class="mb-5"
+                    cols="12"
+            >
+                <h2 class="headline font-weight-bold mb-3">
+                    Social Media
+                </h2>
+
+                <v-row justify="center">
+                    <a
+                            v-for="(soc, i) in socialMedia"
+                            :key="i"
+                            :href="soc.href"
+                            class="subheading mx-3"
+                            target="_blank"
+                    >
+                        {{ soc.text }}
+                    </a>
+                </v-row>
+            </v-col>
+
+          <v-col cols="12">
+            <v-btn
+                    href="https://github.com/vuetifyjs/vuetify/releases/latest"
+                    target="_blank"
+                    large color="#4ABB8A"
+                    style="color: white"
+            >
+              <span class="mr-2">Chat with a Medic</span>
+              <v-icon>mdi-chat</v-icon>
+            </v-btn>
+          </v-col>
+        </v-row>
+
+    </v-container>
 </template>
 
 <script>
-export default {
-  name: 'HelloWorld',
-  props: {
-    msg: String
-  }
-}
-</script>
+    export default {
+        name: 'HelloWorld',
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
+        data: () => ({
+            socialMedia: [
+                {
+                    text: 'Facebook',
+                    href: 'https://github.com/vuetifyjs/vuetify-loader',
+                },
+                {
+                    text: 'Twitter',
+                    href: 'https://github.com/vuetifyjs/vuetify',
+                },
+                {
+                    text: 'Instagram',
+                    href: 'https://github.com/vuetifyjs/awesome-vuetify',
+                },
+            ],
+            essentialGuidelines: [
+                {
+                    text: 'WHO',
+                    href: 'https://www.who.int/emergencies/diseases/novel-coronavirus-2019',
+                },
+                {
+                    text: 'General Information',
+                    href: 'https://www.google.com/covid19/',
+                },
+                {
+                    text: 'UN',
+                    href: 'https://www.un.org/en/coronavirus/covid-19-information-un-healthcare-workers',
+                },
+            ],
+            emergencyContacts: [
+                {
+                    text: 'NCDC - 09087878766',
+                    href: 'https://vuetifyjs.com/components/api-explorer',
+                },
+                {
+                    text: 'NHIS - 09087878766',
+                    href: 'https://vuetifyjs.com/layout/pre-defined',
+                },
+                {
+                    text: 'Ministry of Health - 09087878766',
+                    href: 'https://vuetifyjs.com/getting-started/frequently-asked-questions',
+                },
+            ],
+        }),
+    }
+</script>
 <style scoped>
-h3 {
-  margin: 40px 0 0;
-}
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-a {
-  color: #42b983;
-}
+    .v-application a {
+        color: #4ABB8A;
+    }
 </style>
