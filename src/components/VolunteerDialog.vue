@@ -41,7 +41,7 @@
 </template>
 
 <script>
-    import Firebase from "firebase"
+    import firebase from "firebase"
     export default {
         name: "VolunteerDialog",
         data: () => ({
@@ -63,7 +63,7 @@
                     password: this.password
                 };
                 if (!this.error) {
-                    Firebase.auth().createUserWithEmailAndPassword(info.email, info.password).then(userCredentials => {
+                    firebase.auth().createUserWithEmailAndPassword(info.email, info.password).then(userCredentials => {
                         return userCredentials.user.updateProfile({
                             role: 'Medic',
                             title: this.title,
