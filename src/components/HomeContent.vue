@@ -76,18 +76,18 @@
                 </h2>
 
                 <v-row justify="center">
-                  <a class="subheading mx-3">
-                    Hausa
-                  </a>
-                  <a class="subheading mx-3">
-                    Igbo
-                  </a>
-                  <a class="subheading mx-3">
-                    Yoruba
-                  </a>
-                  <a class="subheading mx-3">
-                    Pidgin (Broken-Engish)
-                  </a>
+                    <a class="subheading mx-3">
+                        Hausa
+                    </a>
+                    <a class="subheading mx-3">
+                        Igbo
+                    </a>
+                    <a class="subheading mx-3">
+                        Yoruba
+                    </a>
+                    <a class="subheading mx-3">
+                        Pidgin (Broken-Engish)
+                    </a>
                 </v-row>
             </v-col>
 
@@ -112,17 +112,28 @@
                 </v-row>
             </v-col>
 
-          <v-col cols="12">
-            <v-btn
-                    href="https://github.com/vuetifyjs/vuetify/releases/latest"
-                    target="_blank"
-                    large color="#4ABB8A"
-                    style="color: white"
-            >
-              <span class="mr-2">Chat with a Medic</span>
-              <v-icon>mdi-chat</v-icon>
-            </v-btn>
-          </v-col>
+            <v-col cols="12">
+                <v-row justify="center">
+                    <v-btn
+                            class="mr-2"
+                            href="https://github.com/vuetifyjs/vuetify/releases/latest"
+                            target="_blank"
+                            large color="#4ABB8A"
+                            style="color: white"
+                    >
+                        <span class="mr-2">Chat with a Medic</span>
+                        <v-icon>mdi-chat</v-icon>
+                    </v-btn>
+                    <v-btn
+                            href="https://github.com/vuetifyjs/vuetify/releases/latest"
+                            target="_blank"
+                            large color="#3B536B"
+                            style="color: white"
+                    >
+                        <span class="mr-2">Report symptoms</span>
+                    </v-btn>
+                </v-row>
+            </v-col>
         </v-row>
 
     </v-container>
