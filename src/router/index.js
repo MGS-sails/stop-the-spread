@@ -18,6 +18,14 @@ const routes = [
     component: () => import(/* webpackChunkName: "user-chat" */ '../views/UserChat.vue')
   },
   {
+    path: '/medic-chat',
+    name: 'MedicChat',
+    meta: {
+      usesSideNav: true
+    },
+    component: () => import(/* webpackChunkName: "medic-chat" */ '../views/MedicChat')
+  },
+  {
     path: '/about',
     name: 'About',
     // route level code-splitting

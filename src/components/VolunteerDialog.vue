@@ -67,14 +67,9 @@
                 if (!this.error) {
                     firebase.auth().createUserWithEmailAndPassword(info.email, info.password).then(userCredentials => {
                         return userCredentials.user.updateProfile({
-                            role: 'Medic',
-                            title: this.title,
-                            firstName: this.firstName,
-                            middleName: this.middleName,
-                            lastName: this.lastName,
+                            displayName: this.title + this.firstName + this.middleName + this.lastName,
                             phoneNumber: this.phoneNumber,
                             email: this.email,
-                            approved: true //left true for testing,
                         }).then(() => {
                             db.collection("medics").add({
                                 title: this.title,

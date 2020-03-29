@@ -1,6 +1,6 @@
 <template>
     <div>
-        <v-navigation-drawer absolute parmanent color="#4ABB8A" id="sts-sidenav">
+        <v-navigation-drawer absolute parmanent color="primary" class="sts-sidenav">
             <template v-slot:prepend>
                 <v-list-item v-for="medic in medics" :key="medic.id">
                     <!--                    <v-list-item-avatar>-->
@@ -9,7 +9,7 @@
 
                     <v-list-item-content>
                         <!--                        <v-list-item-title>{{ medic.title + ' ' + medic.firstName + ' ' + medic.lastName }}</v-list-item-title>-->
-                        <v-btn text @click="chatWithMedic(medic.id)" class="text-left">
+                        <v-btn text @click="chatWithMedic(medic.id)">
                             {{ medic.title + ' ' + medic.firstName + ' ' + medic.lastName }}
                         </v-btn>
                         <!--                        <v-list-item-subtitle>chatting with 5 other users</v-list-item-subtitle>-->
@@ -77,7 +77,7 @@
                 }
             })
             db.collection("medics").onSnapshot(snapshot => {
-                const snapData = [];
+                let snapData = [];
                 snapshot.forEach(doc => {
                     snapData.push({
                         id: doc.id,
@@ -94,7 +94,7 @@
                 db.collection("chats").add({
                     medicID: medicID,
                     uid: this.authUser.uid + medicID,
-                    userName: this.authUser.firstName + this.authUser.lastName
+                    userName: this.authUser.displayName
                 }).then(data => {
                     db.collection("chats").where("uid", "==", this.authUser.uid + medicID).get().then(snapshot => {
                         snapshot.forEach(doc => {
@@ -140,20 +140,19 @@
                     })
                     this.currentChat.messages = messages;
                     this.chatInitiated = true;
-                    console.log('fetched', this.currentChat);
                 })
             }
         }
     }
 </script>
 
-<style scoped>
+<style>
     .sidenav-neighbor {
         padding-left: 20rem;
         padding-right: 5rem;
     }
 
-    #sts-sidenav {
+    .sts-sidenav {
         max-height: 100vh;
         overflow: scroll;
     }

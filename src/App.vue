@@ -51,7 +51,7 @@
 
             <v-btn
                     text
-                    @click="goToAuthProtectedPage('User-Chat')"
+                    @click="goToChatPage"
             >
                 <span class="mr-2">Chat with a Medic</span>
                 <v-icon>mdi-chat</v-icon>
@@ -84,14 +84,20 @@
         mounted() {
             firebase.auth().onAuthStateChanged(authUser => {
                 if (authUser) {
-                    this.authUser = authUser;
+                    this.authUser = authUser
+                    console.log('man role', this.authUser);
                 }
             })
         },
         methods: {
-            goToAuthProtectedPage(pageName) {
+            goToChatPage() {
                 if (this.authUser) {
-                    this.$router.push(pageName);
+                    let pageName =  '';
+                    db.collection("medics").where("email", "==", this.authUser.email)
+                        .get().then(docs => {
+                        pageName = (docs.size > 0 ? 'MedicChat' : 'UserChat');
+                        this.$router.push({name: pageName});
+                    })
                 } else {
                     this.authDialog = true;
                     const firebaseui = require('firebaseui');
