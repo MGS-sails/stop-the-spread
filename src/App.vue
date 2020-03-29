@@ -48,7 +48,7 @@
 
             <v-btn
                     text
-                    @click="$router.push({name: 'User-Chat'})"
+                    @click="goToReportSymptomsPage"
             >
                 <span class="mr-2">Report your symptoms</span>
                 <!--        <v-icon>mdi-chat</v-icon>-->
@@ -84,61 +84,69 @@
 
         data: () => ({
             authUser: null,
-            authDialog: false
         }),
         mounted() {
             firebase.auth().onAuthStateChanged(authUser => {
                 if (authUser) {
                     this.authUser = authUser
-                    console.log('man role', this.authUser);
                 }
             })
         },
         methods: {
+            goToReportSymptomsPage() {
+                if (this.authUser) {
+                    this.$router.push({name: "ReportSymptoms"});
+                } else {
+                    this.startAuth();
+                }
+            },
             goToChatPage() {
                 if (this.authUser) {
                     let pageName =  '';
+                    //this just allows us to check if a user is a medic
                     db.collection("medics").where("email", "==", this.authUser.email)
                         .get().then(docs => {
                         pageName = (docs.size > 0 ? 'MedicChat' : 'UserChat');
                         this.$router.push({name: pageName});
                     })
                 } else {
-                    this.authDialog = true;
-                    const firebaseui = require('firebaseui');
-                    const authUI = new firebaseui.auth.AuthUI(firebase.auth());
-                    var uiConfig = {
-                        callbacks: {
-                            signInSuccessWithAuthResult: function(authResult, redirectUrl) {
-                                // User successfully signed in.
-                                // Return type determines whether we continue the redirect automatically
-                                // or whether we leave that to developer to handle.
-                                return true;
-                            },
-                            uiShown: function() {
-                                // The widget is rendered.
-                                // Hide the loader.
-                                document.getElementById('loader').style.display = 'none';
-                            }
-                        },
-                        // Will use popup for IDP Providers sign-in flow instead of the default, redirect.
-                        signInFlow: 'popup',
-                        signInSuccessUrl: '/',
-                        signInOptions: [
-                            // Leave the lines as is for the providers you want to offer your users.
-                            firebase.auth.EmailAuthProvider.PROVIDER_ID,
-                            firebase.auth.PhoneAuthProvider.PROVIDER_ID,
-                            firebase.auth.GoogleAuthProvider.PROVIDER_ID,
-                            firebase.auth.FacebookAuthProvider.PROVIDER_ID,
-                            firebase.auth.TwitterAuthProvider.PROVIDER_ID
-                        ],
-                        // Terms of service url.
-                        tosUrl: '<your-tos-url>',
-                        // Privacy policy url.
-                        privacyPolicyUrl: '<your-privacy-policy-url>'
-                    };
-                    authUI.start('#firebaseui-auth-container', uiConfig)
+                    this.startAuth()
                 }
+            },
+            startAuth() {
+                const firebaseui = require('firebaseui');
+                const authUI = new firebaseui.auth.AuthUI(firebase.auth());
+                var uiConfig = {
+                    callbacks: {
+                        signInSuccessWithAuthResult: function(authResult, redirectUrl) {
+                            // User successfully signed in.
+                            // Return type determines whether we continue the redirect automatically
+                            // or whether we leave that to developer to handle.
+                            return true;
+                        },
+                        uiShown: function() {
+                            // The widget is rendered.
+                            // Hide the loader.
+                            document.getElementById('loader').style.display = 'none';
+                        }
+                    },
+                    // Will use popup for IDP Providers sign-in flow instead of the default, redirect.
+                    signInFlow: 'popup',
+                    signInSuccessUrl: '/',
+                    signInOptions: [
+                        // Leave the lines as is for the providers you want to offer your users.
+                        firebase.auth.EmailAuthProvider.PROVIDER_ID,
+                        firebase.auth.PhoneAuthProvider.PROVIDER_ID,
+                        firebase.auth.GoogleAuthProvider.PROVIDER_ID,
+                        firebase.auth.FacebookAuthProvider.PROVIDER_ID,
+                        firebase.auth.TwitterAuthProvider.PROVIDER_ID
+                    ],
+                    // Terms of service url.
+                    tosUrl: '<your-tos-url>',
+                    // Privacy policy url.
+                    privacyPolicyUrl: '<your-privacy-policy-url>'
+                };
+                authUI.start('#firebaseui-auth-container', uiConfig)
             },
             logout: function () {
                 firebase.auth()

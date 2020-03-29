@@ -31,6 +31,11 @@ const routes = [
     component: () => import(/* webpackChunkName: "state-helplines" */ '../views/StateHelplines')
   },
   {
+    path: '/report-symptoms',
+    name: 'ReportSymptoms',
+    component: () => import(/* webpackChunkName: "report-symptoms" */ '../views/ReportSymptoms')
+  },
+  {
     path: '/about',
     name: 'About',
     // route level code-splitting

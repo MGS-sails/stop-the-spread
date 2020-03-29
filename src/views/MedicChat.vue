@@ -67,13 +67,11 @@
             firebase.auth().onAuthStateChanged(authUser => {
                 if (authUser) {
                     this.authUser = authUser;
-                    console.log('auth temail', this.authUser.email);
                     db.collection("medics").where("email", '==', this.authUser.email).get()
                         .then(snapshot => {
                             snapshot.forEach(doc => {
                                 this.medic = doc.data();
                                 this.medic.id = doc.id;
-                                console.log('medic', this.medic);
                             });
                             db.collection("chats").where("medicID", "==", this.medic.id).get()
                                 .then(snapshot => {
