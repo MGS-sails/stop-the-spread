@@ -16,23 +16,28 @@
                 />
             </div>
 
-            <router-link to="/" tag="span" class="mr-2">
+            <router-link to="/" class="mr-2">
                 <v-btn text>
                     Home
                 </v-btn>
             </router-link>
-            <router-link to="/about" tag="span" class="mr-2">
+            <router-link to="/about" class="mr-2">
                 <v-btn text>
                     About
                 </v-btn>
             </router-link>
             <VolunteerDialog/>
-            <router-link to="/news" tag="span" class="mr-2">
+            <router-link to="/state-helplines" class="mr-2">
                 <v-btn text>
-                    News
+                    NCDC State Helplines
                 </v-btn>
             </router-link>
-            <router-link to="/blog" tag="span" class="mr-2">
+            <router-link to="/news" class="mr-2">
+                <v-btn text>
+                    MEDIA
+                </v-btn>
+            </router-link>
+            <router-link to="/blog" class="mr-2">
                 <v-btn text>
                     Blog
                 </v-btn>
