@@ -2,8 +2,7 @@
     <v-app>
         <v-app-bar
                 app
-                color="#4ABB8A"
-                dark
+                color="primary"
                 v-if="!$route.meta.usesSideNav"
         >
             <div class="d-flex align-center">
@@ -62,7 +61,7 @@
 
         <v-content>
             <div id="firebaseui-auth-container" class="mt-3"></div>
-            <router-view :authUser="authUser"/>
+            <router-view :authUser="authUser" />
         </v-content>
     </v-app>
 </template>
@@ -138,6 +137,18 @@
                         //this.$router.push("login");
                     });
             },
+
         }
     };
 </script>
+<style>
+    .theme--light.v-btn {
+        color: white;
+    }
+    .theme--light.v-list-item:not(.v-list-item--active):not(.v-list-item--disabled) {
+        color: white !important;
+    }
+    .theme--light.v-list-item .v-list-item__subtitle, .theme--light.v-list-item .v-list-item__action-text {
+        color: white !important;
+    }
+</style>

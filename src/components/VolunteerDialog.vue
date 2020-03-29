@@ -42,6 +42,7 @@
 
 <script>
     import firebase from "firebase"
+    import db from "../db"
     export default {
         name: "VolunteerDialog",
         data: () => ({
@@ -58,6 +59,7 @@
         }),
         methods: {
             register() {
+                this.$emit('addMedic');
                 const info = {
                     email: this.email,
                     password: this.password
@@ -74,7 +76,18 @@
                             email: this.email,
                             approved: true //left true for testing,
                         }).then(() => {
-                            this.showConfirmationMessage = true;
+                            db.collection("medics").add({
+                                title: this.title,
+                                firstName: this.firstName,
+                                middleName: this.middleName,
+                                lastName: this.lastName,
+                                phoneNumber: this.phoneNumber,
+                                email: this.email,
+                                approved: true // left true for testing
+                            }).then(() => {
+                                this.showConfirmationMessage = true;
+                            })
+
                         })
                     }, error => {
                         this.error = error
