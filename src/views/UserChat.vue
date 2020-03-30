@@ -1,24 +1,36 @@
 <template>
     <div>
-        <v-navigation-drawer absolute parmanent color="primary" class="sts-sidenav">
-            <template v-slot:prepend>
-                <v-list-item v-for="medic in medics" :key="medic.id">
-                    <!--                    <v-list-item-avatar>-->
-                    <!--                        <img src="https://ptetutorials.com/images/user-profile.png">-->
-                    <!--                    </v-list-item-avatar>-->
+        <v-navigation-drawer absolute parmanent color="primary" class="sts-sidenav" v-model="drawer">
+            <v-list>
+                <v-list-item two-line @click="$router.replace('/')" style="color: white !important;">
+                    <v-list-item-avatar>
+                        <img :src="require('../assets/logo1.svg')">
+                    </v-list-item-avatar>
 
                     <v-list-item-content>
-                        <!--                        <v-list-item-title>{{ medic.title + ' ' + medic.firstName + ' ' + medic.lastName }}</v-list-item-title>-->
-                        <v-btn text @click="chatWithMedic(medic.id)">
+                        <v-list-item-title>Available Medics</v-list-item-title>
+                        <v-list-item-subtitle>Select a medic to chat with</v-list-item-subtitle>
+                    </v-list-item-content>
+                </v-list-item>
+
+                <v-divider></v-divider>
+
+                <v-list-item v-for="medic in medics" :key="medic.id" @click="chatWithMedic(medic.id)" style="color: white !important;">
+                    <v-list-item-avatar>
+                        <img src="https://ptetutorials.com/images/user-profile.png">
+                    </v-list-item-avatar>
+
+                    <v-list-item-content>
+                        <v-list-item-title>
                             {{ medic.title + ' ' + medic.firstName + ' ' + medic.lastName }}
-                        </v-btn>
-                        <!--                        <v-list-item-subtitle>chatting with 5 other users</v-list-item-subtitle>-->
+                        </v-list-item-title>
                     </v-list-item-content>
 
                 </v-list-item>
-            </template>
+            </v-list>
         </v-navigation-drawer>
         <div class="sidenav-neighbor">
+            <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
             <v-row class="text-center messages-area">
                 <v-col cols="12" v-if="chatInitiated">
                     <v-card width="800" height="100" v-for="message in currentChat.messages" :key="message.id"
@@ -26,8 +38,8 @@
                             :class="[message.senderID === authUser.uid ? 'mr-auto' : 'ml-auto']"
                             :color="(message.senderID === authUser.uid ? 'primary' : 'secondary')"
                             shaped style="overflow-y: auto">
-                        <v-card-text
-                                :class="[message.senderID === authUser.uid ? 'text-right' : 'text-left']">
+                        <v-card-subtitle class="text-right">{{ moment.unix(message.createdAt).format('MM ddd, h:mm:ss') }}</v-card-subtitle>
+                        <v-card-text class="text-left">
                             <div :class="{'sent-message': message.senderID === authUser.uid, 'received-message': message.senderID !== authUser.uid}">
                                 {{ message.content }}
                             </div>
@@ -41,8 +53,8 @@
                 </v-col>
             </v-row>
 
-            <div class="mt-3" v-if="chatInitiated">
-                <v-textarea solo v-model="messageContent">
+            <div class="mt-3 compose-area" v-if="chatInitiated">
+                <v-textarea solo v-model="messageContent" rows="5">
                 </v-textarea>
                 <v-btn color="primary" @click="sendMessage">Send</v-btn>
             </div>
@@ -55,6 +67,7 @@
 <script>
     import db from "../db";
     import firebase from "firebase";
+    import moment from "moment";
 
     export default {
         name: "UserChat",
@@ -67,7 +80,9 @@
                     id: null,
                     messages: []
                 },
-                messageContent: null
+                messageContent: null,
+                drawer: true,
+                moment: moment
             }
         },
         mounted() {
@@ -130,7 +145,12 @@
                     createdAt: firebase.firestore.FieldValue.serverTimestamp()
                 }).then(() => {
                     this.messageContent = null;
+                    this.scrollToNewMessage();
                 })
+            },
+            scrollToNewMessage() {
+                let box = document.querySelector('.messages-area');
+                box.scrollTop = 0;
             },
             fetchMessages() {
                 db.collection("chats").doc(this.currentChat.id).collection("messages").orderBy("createdAt", "asc").onSnapshot(snapshot => {
@@ -140,29 +160,9 @@
                     })
                     this.currentChat.messages = messages;
                     this.chatInitiated = true;
+                    this.scrollToNewMessage()
                 })
             }
         }
     }
 </script>
-
-<style>
-    .sidenav-neighbor {
-        padding-left: 20rem;
-        padding-right: 5rem;
-    }
-
-    .sts-sidenav {
-        max-height: 100vh;
-        overflow: scroll;
-    }
-
-    .messages-area {
-        max-height: 75vh;
-        overflow-y: scroll;
-    }
-
-    .compose-area {
-        max-height: 20vh;
-    }
-</style>

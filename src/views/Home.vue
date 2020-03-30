@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <HomeContent/>
+    <HomeContent @reportSymptoms="reportSymptoms" @medicChat="medicChat"/>
   </div>
 </template>
 
@@ -12,6 +12,14 @@ export default {
   name: 'Home',
   components: {
     HomeContent
+  },
+  methods: {
+    reportSymptoms() {
+      this.$emit('reportSymptoms');
+    },
+    medicChat() {
+      this.$emit('medicChat');
+    }
   }
 }
 </script>

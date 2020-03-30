@@ -4,10 +4,11 @@
                 app
                 color="primary"
                 v-if="!$route.meta.usesSideNav"
+                class="hidden-md-and-down"
         >
-            <div class="d-flex align-center">
+            <div class="d-flex align-center hidden-md-and-down">
                 <v-img
-                        alt="Vuetify Logo"
+                        alt="App Logo"
                         class="shrink mr-2"
                         contain
                         :src="require('./assets/logo1.svg')"
@@ -16,28 +17,28 @@
                 />
             </div>
 
-            <router-link to="/" class="mr-2">
+            <router-link to="/" class="mr-2 hidden-md-and-down">
                 <v-btn text>
                     Home
                 </v-btn>
             </router-link>
-            <router-link to="/about" class="mr-2">
+            <router-link to="/about" class="mr-2 hidden-md-and-down">
                 <v-btn text>
                     About
                 </v-btn>
             </router-link>
             <VolunteerDialog/>
-            <router-link to="/state-helplines" class="mr-2">
+            <router-link to="/state-helplines" class="mr-2 hidden-md-and-down">
                 <v-btn text>
                     NCDC State Helplines
                 </v-btn>
             </router-link>
-            <router-link to="/news" class="mr-2">
+            <router-link to="/news" class="mr-2 hidden-md-and-down">
                 <v-btn text>
                     MEDIA
                 </v-btn>
             </router-link>
-            <router-link to="/blog" class="mr-2">
+            <router-link to="/blog" class="mr-2 hidden-md-and-down">
                 <v-btn text>
                     Blog
                 </v-btn>
@@ -46,27 +47,81 @@
             <v-spacer></v-spacer>
 
 
-            <v-btn
-                    text
-                    @click="goToReportSymptomsPage"
-            >
+            <v-btn text @click="goToReportSymptomsPage" class="hidden-md-and-down" ref="originalMe">
                 <span class="mr-2">Report your symptoms</span>
                 <!--        <v-icon>mdi-chat</v-icon>-->
             </v-btn>
 
-            <v-btn
-                    text
-                    @click="goToChatPage"
-            >
-                <span class="mr-2">Chat with a Medic</span>
+            <v-btn text @click="goToChatPage" class="hidden-md-and-down">
+                <span class="mr-2">Medic Chat</span>
                 <v-icon>mdi-chat</v-icon>
             </v-btn>
-            <v-btn v-if="authUser" @click="logout" text>Logout</v-btn>
+            <v-btn v-if="authUser" @click="logout" text class="hidden-md-and-down">Logout</v-btn>
         </v-app-bar>
 
+        <v-toolbar class="hidden-md-and-up" color="primary" v-if="!$route.meta.usesSideNav">
+            <v-menu>
+                <template v-slot:activator="{ on }">
+                    <v-app-bar-nav-icon v-on="on"></v-app-bar-nav-icon>
+                </template>
+                <v-list>
+                    <v-list-item @click="goToPage('Home')">
+                        <v-list-item-content>
+                            <v-list-item-title>
+                                Home
+                            </v-list-item-title>
+                        </v-list-item-content>
+                    </v-list-item>
+                    <v-list-item @click="goToChatPage">
+                        <v-list-item-content>
+                            <v-list-item-title>
+                                Medic Chat
+                            </v-list-item-title>
+                        </v-list-item-content>
+                    </v-list-item>
+                    <v-list-item @click="goToReportSymptomsPage">
+                        <v-list-item-content>
+                            <v-list-item-title>
+                                Report your symptoms
+                            </v-list-item-title>
+                        </v-list-item-content>
+                    </v-list-item>
+                    <v-list-item @click="goToPage('About')">
+                        <v-list-item-content>
+                            <v-list-item-title>
+                                About
+                            </v-list-item-title>
+                        </v-list-item-content>
+                    </v-list-item>
+                    <v-list-item @click="goToPage('Home')">
+                        <v-list-item-content>
+                            <v-list-item-title>
+                                Media
+                            </v-list-item-title>
+                        </v-list-item-content>
+                    </v-list-item>
+                    <v-list-item @click="goToPage('Home')">
+                        <v-list-item-content>
+                            <v-list-item-title>
+                                Blog
+                            </v-list-item-title>
+                        </v-list-item-content>
+                    </v-list-item>
+                    <v-list-item @click="logout" v-if="authUser">
+                        <v-list-item-content>
+                            <v-list-item-title>
+                                Logout
+                            </v-list-item-title>
+                        </v-list-item-content>
+                    </v-list-item>
+                </v-list>
+            </v-menu>
+        </v-toolbar>
+
         <v-content>
-            <div id="firebaseui-auth-container" class="mt-3"></div>
-            <router-view :authUser="authUser" />
+            <div id="firebaseui-auth-container" class="mt-3" ref="authUiAnchor"></div>
+            <input type="hidden">
+            <router-view :authUser="authUser" @reportSymptoms="goToReportSymptomsPage" @medicChat="goToChatPage"/>
         </v-content>
     </v-app>
 </template>
@@ -102,7 +157,7 @@
             },
             goToChatPage() {
                 if (this.authUser) {
-                    let pageName =  '';
+                    let pageName = '';
                     //this just allows us to check if a user is a medic
                     db.collection("medics").where("email", "==", this.authUser.email)
                         .get().then(docs => {
@@ -118,13 +173,13 @@
                 const authUI = new firebaseui.auth.AuthUI(firebase.auth());
                 var uiConfig = {
                     callbacks: {
-                        signInSuccessWithAuthResult: function(authResult, redirectUrl) {
+                        signInSuccessWithAuthResult: function (authResult, redirectUrl) {
                             // User successfully signed in.
                             // Return type determines whether we continue the redirect automatically
                             // or whether we leave that to developer to handle.
                             return true;
                         },
-                        uiShown: function() {
+                        uiShown: function () {
                             // The widget is rendered.
                             // Hide the loader.
                             document.getElementById('loader').style.display = 'none';
@@ -156,6 +211,9 @@
                         //this.$router.push("login");
                     });
             },
+            goToPage(pageName) {
+                this.$router.push({name: pageName}).catch(error => {});
+            }
 
         }
     };
@@ -164,9 +222,11 @@
     .theme--light.v-btn {
         color: white;
     }
+
     .theme--light.v-list-item:not(.v-list-item--active):not(.v-list-item--disabled) {
         color: white !important;
     }
+
     .theme--light.v-list-item .v-list-item__subtitle, .theme--light.v-list-item .v-list-item__action-text {
         color: white !important;
     }

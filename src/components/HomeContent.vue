@@ -116,21 +116,19 @@
                 <v-row justify="center">
                     <v-btn
                             class="mr-2"
-                            href="https://github.com/vuetifyjs/vuetify/releases/latest"
-                            target="_blank"
                             large color="#4ABB8A"
                             style="color: white"
+                            @click="$emit('medicChat')"
                     >
-                        <span class="mr-2">Chat with a Medic</span>
+                        Medic Chat
                         <v-icon>mdi-chat</v-icon>
                     </v-btn>
                     <v-btn
-                            href="https://github.com/vuetifyjs/vuetify/releases/latest"
-                            target="_blank"
                             large color="#3B536B"
                             style="color: white"
+                            @click="$emit('reportSymptoms')"
                     >
-                        <span class="mr-2">Report symptoms</span>
+                        Report symptoms
                     </v-btn>
                 </v-row>
             </v-col>

@@ -9,6 +9,45 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@mdi/font@latest/css/materialdesignicons.min.css">
     <link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/3.5.2/firebaseui.css" />
+
+    <style>
+      .theme--light.v-card > .v-card__text, .theme--light.v-card .v-card__subtitle {
+        color: white !important;
+      }
+      .sent-message, .received-message {
+        color: white;
+      }
+      .sidenav-neighbor {
+        padding-left: 20rem;
+        padding-right: 5rem;
+      }
+
+      .messages-area {
+        max-height: 72vh;
+        overflow-y: scroll;
+      }
+
+      @media screen and (max-width: 1024px) {
+        .sidenav-neighbor {
+          padding-left: 2rem;
+          padding-right: 2rem;
+        }
+      }
+      @media screen and (max-width: 375px) {
+        .messages-area {
+          max-height: 56vh;
+        }
+      }
+
+      .sts-sidenav {
+        max-height: 100vh;
+        overflow: scroll;
+      }
+
+      .compose-area {
+        max-height: 5vh;
+      }
+    </style>
   </head>
   <body>
     <noscript>

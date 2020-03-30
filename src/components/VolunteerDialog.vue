@@ -32,7 +32,7 @@
 
                         <v-textarea label="tell us about your qualification" min="150"></v-textarea>
 
-                        <v-btn @click.prevent="register"  large block>Register</v-btn>
+                        <v-btn @click.prevent="register" large block color="primary">Register</v-btn>
                     </v-form>
                 </v-card-text>
             </v-card>

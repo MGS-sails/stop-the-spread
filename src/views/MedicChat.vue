@@ -1,17 +1,31 @@
 <template>
     <div>
-        <v-navigation-drawer absolute permanent color="primary" class="sts-sidenav">
-            <template v-slot:prepend>
-                <v-list-item v-for="chat in chats" :key="chat.id">
+        <v-navigation-drawer absolute permanent color="primary" class="sts-sidenav" v-model="drawer">
+            <v-list>
+                <v-list-item two-line @click="$router.replace('/')" style="color: white !important;">
+                    <v-list-item-avatar>
+                        <img :src="require('../assets/logo1.svg')">
+                    </v-list-item-avatar>
+
                     <v-list-item-content>
-                        <v-btn text @click="chatWithUser(chat.id)">
-                            {{ chat.userName }}
-                        </v-btn>
+                        <v-list-item-title>Active Chats</v-list-item-title>
+                        <v-list-item-subtitle>Select a user below</v-list-item-subtitle>
                     </v-list-item-content>
                 </v-list-item>
-            </template>
+
+                <v-divider></v-divider>
+
+                <v-list-item v-for="chat in chats" :key="chat.id" @click="chatWithUser(chat.id)" style="color: white !important;">
+                    <v-list-item-content>
+                        <v-list-item-title>
+                            {{ chat.userName }}
+                        </v-list-item-title>
+                    </v-list-item-content>
+                </v-list-item>
+            </v-list>
         </v-navigation-drawer>
         <div class="sidenav-neighbor">
+            <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
             <v-row class="text-center messages-area">
                 <v-col cols="12" v-if="chatInitiated">
                     <v-card width="800" height="100" v-for="message in currentChat.messages" :key="message.id"
@@ -19,8 +33,8 @@
                             :class="[message.senderID === authUser.uid ? 'mr-auto' : 'ml-auto']"
                             :color="(message.senderID === authUser.uid ? 'primary' : 'secondary')"
                             shaped style="overflow-y: auto">
-                        <v-card-text
-                                :class="[message.senderID === authUser.uid ? 'text-right' : 'text-left']">
+                        <v-card-subtitle class="text-right">{{ moment.unix(message.createdAt).format('MM ddd, h:mm:ss') }}</v-card-subtitle>
+                        <v-card-text class="text-left">
                             <div :class="{'sent-message': message.senderID === authUser.uid, 'received-message': message.senderID !== authUser.uid}">
                                 {{ message.content }}
                             </div>
@@ -46,6 +60,7 @@
 <script>
     import db from "../db";
     import firebase from "firebase";
+    import moment from "moment";
 
     export default {
         name: "MedicChat",
@@ -59,7 +74,9 @@
                     id: null,
                     messages: []
                 },
-                messageContent: null
+                messageContent: null,
+                drawer: true,
+                moment: moment
 
             }
         },
@@ -107,7 +124,12 @@
                     })
                     this.currentChat.messages = snapData;
                     this.chatInitiated = true;
+                    this.scrollToNewMessage()
                 })
+            },
+            scrollToNewMessage() {
+                let box = document.querySelector('.messages-area');
+                box.scrollTop = 0;
             },
             sendMessage() {
                 db.collection("chats").doc(this.currentChat.id).collection("messages").add({
@@ -117,29 +139,9 @@
                     createdAt: firebase.firestore.FieldValue.serverTimestamp()
                 }).then(() => {
                     this.messageContent = null;
+                    this.scrollToNewMessage()
                 })
             }
         }
     }
 </script>
-
-<style>
-    .sidenav-neighbor {
-        padding-left: 20rem;
-        padding-right: 5rem;
-    }
-
-    .sts-sidenav {
-        max-height: 100vh;
-        overflow: scroll;
-    }
-
-    .messages-area {
-        max-height: 75vh;
-        overflow-y: scroll;
-    }
-
-    .compose-area {
-        max-height: 20vh;
-    }
-</style>
