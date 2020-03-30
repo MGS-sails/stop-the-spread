@@ -64,7 +64,7 @@
                 <template v-slot:activator="{ on }">
                     <v-app-bar-nav-icon v-on="on"></v-app-bar-nav-icon>
                 </template>
-                <v-list>
+                <v-list color="primary">
                     <v-list-item @click="goToPage('Home')">
                         <v-list-item-content>
                             <v-list-item-title>

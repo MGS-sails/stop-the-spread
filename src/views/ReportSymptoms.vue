@@ -15,7 +15,7 @@
                     <v-text-field solo type="text" v-model="symptom.duration" label="FOR HOW LONG HAVE YOU HAD THESE SYMPTOMS ?"></v-text-field>
                     <v-row>
                         <v-col>
-                            <v-text-field solo label="WHERE DO YOU LIVE ?" v-model="symptom.patient.address.firstLine"></v-text-field>
+                            <v-text-field solo label="ADDRESS" v-model="symptom.patient.address.firstLine"></v-text-field>
                         </v-col>
                         <v-col>
                             <v-text-field solo label="TOWN" v-model="symptom.patient.address.town"></v-text-field>
