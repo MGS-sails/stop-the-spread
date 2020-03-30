@@ -145,18 +145,22 @@
             socialMedia: [
                 {
                     text: 'Facebook',
-                    href: 'https://github.com/vuetifyjs/vuetify-loader',
+                    href: '#',
                 },
                 {
                     text: 'Twitter',
-                    href: 'https://github.com/vuetifyjs/vuetify',
+                    href: '#',
                 },
                 {
                     text: 'Instagram',
-                    href: 'https://github.com/vuetifyjs/awesome-vuetify',
+                    href: '#',
                 },
             ],
             essentialGuidelines: [
+                {
+                    text: 'NCDC',
+                    href: 'https://covid19.ncdc.gov.ng/',
+                },
                 {
                     text: 'WHO',
                     href: 'https://www.who.int/emergencies/diseases/novel-coronavirus-2019',
@@ -172,16 +176,12 @@
             ],
             emergencyContacts: [
                 {
-                    text: 'NCDC - 09087878766',
-                    href: 'https://vuetifyjs.com/components/api-explorer',
+                    text: 'Nigeria Centre for Disease Control - 09087878766',
+                    href: 'https://covid19.ncdc.gov.ng/',
                 },
                 {
-                    text: 'NHIS - 09087878766',
-                    href: 'https://vuetifyjs.com/layout/pre-defined',
-                },
-                {
-                    text: 'Ministry of Health - 09087878766',
-                    href: 'https://vuetifyjs.com/getting-started/frequently-asked-questions',
+                    text: 'List of All State Helplines',
+                    href: '/state-helplines',
                 },
             ],
         }),
